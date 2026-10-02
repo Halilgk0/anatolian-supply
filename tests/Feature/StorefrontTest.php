@@ -97,3 +97,33 @@ test('unpublished product page returns not found', function () {
 test('unknown product returns not found', function () {
     $this->get('/urunler/olmayan-urun')->assertNotFound();
 });
+
+test('product with a purchase link sends visitors to the marketplace', function () {
+    $product = Product::factory()->create(['purchase_url' => 'https://dolap.com/urun/ornek-ilan-123']);
+
+    $this->get(route('products.show', $product))
+        ->assertOk()
+        ->assertSee('Dolap üzerinden satın al')
+        ->assertSee('href="https://dolap.com/urun/ornek-ilan-123" target="_blank" rel="noopener" data-purchase-link', false)
+        ->assertSee('Ödeme ve kargo Dolap üzerinden yapılır.');
+});
+
+test('product without a purchase link shows no buy button', function () {
+    $product = Product::factory()->create(['purchase_url' => null]);
+
+    $this->get(route('products.show', $product))
+        ->assertOk()
+        ->assertDontSee('üzerinden satın al')
+        ->assertDontSee('data-purchase-link', false)
+        ->assertSee('Sitede satış yapılmıyor.');
+});
+
+test('the marketplace is named from the link', function (?string $link, ?string $platform) {
+    expect((new Product(['purchase_url' => $link]))->purchasePlatform())->toBe($platform);
+})->with([
+    'dolap' => ['https://dolap.com/urun/ceket-1', 'Dolap'],
+    'letgo with www' => ['https://www.letgo.com/item/xyz', 'letgo'],
+    'sahibinden on mobile' => ['https://m.sahibinden.com/ilan/123', 'sahibinden.com'],
+    'unknown site' => ['https://www.ornekpazar.com/ilan/9', 'ornekpazar.com'],
+    'no link' => [null, null],
+]);

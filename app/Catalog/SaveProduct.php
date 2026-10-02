@@ -20,6 +20,7 @@ class SaveProduct
 
         $product->fill([
             ...$request->safe()->only(['name', 'code', 'category', 'tagline', 'description']),
+            'purchase_url' => filled($request->validated('purchase_url')) ? trim($request->validated('purchase_url')) : null,
             'features' => $request->features(),
             'specs' => $request->specs(),
             'sizes' => $request->sizes(),

@@ -68,7 +68,7 @@ Bağlantıyı biriyle paylaştıysam, yanlışlıkla bir yere yapıştırdıysam
 
 1. Panel bağlantısını açıp **Yeni ürün ekle** düğmesine basıyorum.
 2. **Fotoğraflar:** Kutunun üstüne dokunuyorum ya da fotoğrafları kutuya sürüklüyorum. Birden fazla fotoğrafı aynı anda seçebiliyorum (en fazla 8). Telefonla çektiğim büyük fotoğraflar yüklenmeden önce otomatik küçültülüyor. “Ana fotoğraf” olarak seçtiğim fotoğraf ürün kartında görünüyor.
-3. **Ürün bilgileri:** Ürün adını, kategorisini, tek cümlelik kısa açıklamasını ve detaylı açıklamasını yazıyorum. Ürün kodu otomatik öneriliyor; istersem değiştiriyorum.
+3. **Ürün bilgileri:** Ürün adını, kategorisini, tek cümlelik kısa açıklamasını ve detaylı açıklamasını yazıyorum. Ürün kodu otomatik öneriliyor; istersem değiştiriyorum. Ürün Dolap, letgo gibi bir sitede satıştaysa ilanın bağlantısını **Satın alma bağlantısı** kutusuna yapıştırıyorum; ürün sayfasında “Dolap üzerinden satın al” düğmesi çıkıyor. Boş bırakırsam düğme görünmüyor.
 4. **Renkler:** “Hızlı ekle” düğmeleriyle hazır renkleri tek dokunuşla ekliyorum ya da kendi rengimi yazıyorum. Bir renge fotoğraf eklersem, ziyaretçi o rengi seçtiğinde ürün fotoğrafı da değişiyor.
 5. **Bedenler:** Satılan bedenlere dokunarak seçiyorum. Listede olmayan bir beden için alttaki kutuya yazıp **Ekle**’ye basıyorum.
 6. **Öne çıkanlar:** Her satıra bir özellik yazıyorum.
@@ -103,7 +103,7 @@ npm run build
 Sonra her seferinde:
 
 ```bash
-php artisan serve --host=192.168.1.105 --port=8000
+php artisan serve --host=192.168.1.102 --port=8000
 ```
 
 Site `http://192.168.1.105:8000` adresinde açılır ve aynı Wi-Fi’deki telefonlardan da görülebilir. Bu komutla `localhost:8000` adresi çalışmaz; hem `localhost` hem de bu adres çalışsın istersem `--host=0.0.0.0` kullanıyorum. Bilgisayarımın adresini öğrenmek için terminale `ipconfig` yazıp “IPv4 Address” satırına bakıyorum.
@@ -156,14 +156,15 @@ npm run build
 
 ### Veritabanı tablolarını güncellemek
 
-İleride yeni bir tablo ya da sütun eklenirse canlı veritabanını bilgisayarımdan güncelliyorum:
+Yeni bir sürüm tablo ya da sütun değişikliği içeriyorsa canlı veritabanı **kendiliğinden** güncellenir: yayından sonraki ilk istekte site eksik değişiklikleri uygular (Vercel’de `STORE_AUTO_MIGRATE=true`). Benim bir şey yapmam gerekmez.
+
+Elle güncellemem gerekirse (örneğin otomatik güncelleme hata verirse):
 
 1. Vercel’de **Storage → Neon → .env.local** sekmesinden `DATABASE_URL` değerini kopyalıyorum.
 2. Proje klasöründe terminale şunu yazıyorum (tırnak içine kopyaladığım adresi koyuyorum):
    ```bash
    DB_CONNECTION=pgsql DB_URL="kopyaladığım-adres" php -d extension=pdo_pgsql artisan magaza:hazirla
    ```
-3. Komut eksik tabloları oluşturur. Veritabanı boşsa örnek ürünleri ekler; ürün varsa hiçbirine dokunmaz.
 
 ### Canlı panel bağlantısı
 

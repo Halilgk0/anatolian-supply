@@ -1,5 +1,6 @@
 @php
     $hasSizeChoice = count($product->sizes) > 1;
+    $purchasePlatform = $product->purchasePlatform();
     $gallery = collect($product->images)->map(fn (array $image): array => [
         'src' => \App\Models\Product::mediaUrl($image['path']),
         'cutout' => $image['cutout'],
@@ -109,17 +110,31 @@
                             <p class="mt-8 text-sm"><span class="font-semibold">Beden:</span> {{ $product->sizes[0] }}</p>
                         @endif
 
-                        <div data-primary-cta class="mt-8 flex flex-col gap-3 sm:flex-row">
-                            <a href="{{ config('store.instagram_url') }}" target="_blank" rel="noopener" class="btn btn-olive min-h-14 flex-1 text-base">
-                                <x-icons.instagram class="size-5" />
-                                Instagram’dan sor
-                            </a>
-                            <button type="button" data-open-inquiry class="btn btn-line-dark min-h-14 flex-1 text-base">
-                                <x-icons.mail class="size-5" />
-                                E-postayla bilgi al
-                            </button>
+                        <div data-primary-cta class="mt-8 grid gap-3">
+                            @if ($purchasePlatform)
+                                <a href="{{ $product->purchase_url }}" target="_blank" rel="noopener" data-purchase-link class="btn btn-olive min-h-14 text-base">
+                                    <x-icons.external class="size-5" />
+                                    {{ $purchasePlatform }} üzerinden satın al
+                                </a>
+                            @endif
+                            <div class="flex flex-col gap-3 sm:flex-row">
+                                <a href="{{ config('store.instagram_url') }}" target="_blank" rel="noopener" class="btn {{ $purchasePlatform ? 'btn-line-dark' : 'btn-olive' }} min-h-14 flex-1 text-base">
+                                    <x-icons.instagram class="size-5" />
+                                    Instagram’dan sor
+                                </a>
+                                <button type="button" data-open-inquiry class="btn btn-line-dark min-h-14 flex-1 text-base">
+                                    <x-icons.mail class="size-5" />
+                                    E-postayla bilgi al
+                                </button>
+                            </div>
                         </div>
-                        <p class="mt-3 text-sm leading-relaxed text-ink/70">Sitede satış yapılmıyor. Fiyat, stok ve sipariş için Instagram’dan mesaj at ya da e-postayla bilgi iste.</p>
+                        <p class="mt-3 text-sm leading-relaxed text-ink/70">
+                            @if ($purchasePlatform)
+                                Ödeme ve kargo {{ $purchasePlatform }} üzerinden yapılır. Ürünle ilgili sorun varsa Instagram’dan mesaj at ya da e-postayla bilgi iste.
+                            @else
+                                Sitede satış yapılmıyor. Fiyat, stok ve sipariş için Instagram’dan mesaj at ya da e-postayla bilgi iste.
+                            @endif
+                        </p>
 
                         @if (session('inquiry_sent'))
                             <p role="status" class="mt-5 rounded-sm border-l-4 border-olive-600 bg-sand-200 px-4 py-3 text-[0.95rem]">{{ session('inquiry_sent') }}</p>
@@ -180,14 +195,25 @@
         @endif
 
         <div data-mobile-cta inert class="fixed inset-x-0 bottom-0 z-30 flex translate-y-full gap-2 border-t border-ink/10 bg-sand-100/95 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] text-ink backdrop-blur transition-transform duration-300 lg:hidden">
-            <a href="{{ config('store.instagram_url') }}" target="_blank" rel="noopener" class="btn btn-olive flex-1 px-3 whitespace-nowrap">
-                <x-icons.instagram class="size-5" />
-                Instagram
-            </a>
-            <button type="button" data-open-inquiry class="btn btn-line-dark flex-1 px-3 whitespace-nowrap">
-                <x-icons.mail class="size-5" />
-                Bilgi al
-            </button>
+            @if ($purchasePlatform)
+                <a href="{{ $product->purchase_url }}" target="_blank" rel="noopener" aria-label="{{ $purchasePlatform }} üzerinden satın al" class="btn btn-olive flex-1 px-3 whitespace-nowrap">
+                    <x-icons.external class="size-5" />
+                    Satın al
+                </a>
+                <a href="{{ config('store.instagram_url') }}" target="_blank" rel="noopener" class="btn btn-line-dark flex-1 px-3 whitespace-nowrap">
+                    <x-icons.instagram class="size-5" />
+                    Instagram
+                </a>
+            @else
+                <a href="{{ config('store.instagram_url') }}" target="_blank" rel="noopener" class="btn btn-olive flex-1 px-3 whitespace-nowrap">
+                    <x-icons.instagram class="size-5" />
+                    Instagram
+                </a>
+                <button type="button" data-open-inquiry class="btn btn-line-dark flex-1 px-3 whitespace-nowrap">
+                    <x-icons.mail class="size-5" />
+                    Bilgi al
+                </button>
+            @endif
         </div>
 
         <x-inquiry-dialog :product="$product" :size-required="$hasSizeChoice" />

@@ -35,4 +35,11 @@ return [
 
     'media_disk' => env('STORE_MEDIA_DISK', 'public'),
 
+    /*
+    | Run pending migrations on the first request of each server instance.
+    | Meant for Vercel, where there is no place to run "php artisan migrate".
+    */
+
+    'auto_migrate' => (bool) env('STORE_AUTO_MIGRATE', false),
+
 ];

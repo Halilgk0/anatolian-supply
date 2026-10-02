@@ -269,3 +269,22 @@ test('without the GD extension the browser decides whether a photo is a cut-out'
     expect(array_column($product->images, 'cutout'))->toBe([false, true])
         ->and($product->colors[0]['cutout'])->toBeTrue();
 });
+
+test('admin adds and removes a purchase link', function () {
+    $this->post(adminRoute('admin.products.store'), productInput(['purchase_url' => '  https://dolap.com/urun/agri-boonie  ']))
+        ->assertSessionHasNoErrors();
+
+    $product = Product::query()->sole();
+
+    expect($product->purchase_url)->toBe('https://dolap.com/urun/agri-boonie');
+
+    $this->put(adminRoute('admin.products.update', ['product' => $product]), productInput(['images' => [], 'purchase_url' => '']))
+        ->assertSessionHasNoErrors();
+
+    expect($product->refresh()->purchase_url)->toBeNull();
+});
+
+test('admin cannot save a purchase link that is not a web address', function () {
+    $this->post(adminRoute('admin.products.store'), productInput(['purchase_url' => 'dolap ilanım']))
+        ->assertSessionHasErrors(['purchase_url' => 'Geçerli bir bağlantı yapıştır; https:// ile başlamalı.']);
+});

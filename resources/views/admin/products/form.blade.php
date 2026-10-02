@@ -164,6 +164,13 @@
                     <textarea id="urun-aciklama" name="description" rows="6" required maxlength="3000" placeholder="Ürünü kim, nerede, nasıl kullanır? Kumaşı ve kesimi neden böyle?" @error('description') aria-invalid="true" @enderror class="field mt-1.5 resize-y">{{ old('description', $product->description) }}</textarea>
                     <x-admin.error for="description" />
                 </div>
+
+                <div class="sm:col-span-2">
+                    <label for="urun-satis-baglantisi" class="text-sm font-semibold">Satın alma bağlantısı <span class="font-normal text-ink/60">(isteğe bağlı)</span></label>
+                    <input id="urun-satis-baglantisi" type="url" name="purchase_url" value="{{ old('purchase_url', $product->purchase_url) }}" maxlength="500" inputmode="url" placeholder="https://dolap.com/urun/..." @error('purchase_url') aria-invalid="true" @enderror class="field mt-1.5">
+                    <p class="mt-1.5 text-xs leading-relaxed text-ink/60">Ürün Dolap, letgo, sahibinden.com gibi bir sitede satıştaysa ilanın bağlantısını yapıştır. Ürün sayfasında “Dolap üzerinden satın al” gibi bir düğme çıkar. Boş bırakırsan düğme görünmez.</p>
+                    <x-admin.error for="purchase_url" />
+                </div>
             </div>
         </x-admin.section>
 

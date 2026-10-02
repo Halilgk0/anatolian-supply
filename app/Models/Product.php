@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Storage;
  * @property array<int, array{label: string, value: string}> $specs
  */
 #[Fillable([
-    'slug', 'code', 'name', 'category', 'tagline', 'description', 'illustration',
+    'slug', 'code', 'name', 'category', 'tagline', 'description', 'purchase_url', 'illustration',
     'images', 'colors', 'sizes', 'features', 'specs', 'is_published', 'sort_order',
 ])]
 #[RouteKey('slug')]
@@ -129,6 +129,42 @@ class Product extends Model
         };
 
         return ['main' => $color['hex'], 'shade' => $darken(0.78), 'detail' => $darken(0.52)];
+    }
+
+    /**
+     * Second-hand marketplaces the store sells on, keyed by their domain.
+     */
+    public const MARKETPLACES = [
+        'dolap.com' => 'Dolap',
+        'letgo.com' => 'letgo',
+        'sahibinden.com' => 'sahibinden.com',
+        'gardrops.com' => 'Gardrops',
+        'trendyol.com' => 'Trendyol',
+        'hepsiburada.com' => 'Hepsiburada',
+        'n11.com' => 'n11',
+        'instagram.com' => 'Instagram',
+    ];
+
+    /**
+     * The name of the site the purchase link points to, e.g. "Dolap", or null without a link.
+     */
+    public function purchasePlatform(): ?string
+    {
+        $host = parse_url((string) $this->purchase_url, PHP_URL_HOST);
+
+        if (! is_string($host) || $host === '') {
+            return null;
+        }
+
+        $host = strtolower((string) preg_replace('/^(www|m)\./', '', $host));
+
+        foreach (self::MARKETPLACES as $domain => $name) {
+            if ($host === $domain || str_ends_with($host, '.'.$domain)) {
+                return $name;
+            }
+        }
+
+        return $host;
     }
 
     public function url(): string

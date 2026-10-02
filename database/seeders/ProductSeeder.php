@@ -112,6 +112,7 @@ class ProductSeeder extends Seeder
             'category' => 'Aksesuar',
             'tagline' => 'Geniş kenarlı, havalandırma delikli, çene bağcıklı arazi şapkası.',
             'description' => 'Ağrı, güneşte ve hafif yağmurda yüzü ve enseyi koruyan klasik bir boonie şapkadır. Ripstop kumaşı katlanıp cebe sığar, açıldığında formunu korur. Taç çevresindeki şerit kamuflaj dalı ya da işaret takmak için kullanılabilir.',
+            'purchase_url' => 'https://dolap.com/',
             'illustration' => null,
             'images' => [$woodland, $desert],
             'colors' => [
