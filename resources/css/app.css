@@ -155,22 +155,29 @@
     }
 
     /* Manila issue tag: clipped top corners and a punched, reinforced hole */
+    /* Size knobs (--tag-corner, --tag-hole-y, --tag-ring) can be set on the tag or any parent, e.g. for narrow grids. */
     .tag {
-        --tag-hole-y: 30px;
         position: relative;
         isolation: isolate;
         background: var(--color-sand-100);
         color: var(--color-ink);
-        clip-path: polygon(48px 0, calc(100% - 48px) 0, 100% 48px, 100% 100%, 0 100%, 0 48px);
-        mask: radial-gradient(circle at 50% var(--tag-hole-y), #0000 8px, #000 8.5px);
+        clip-path: polygon(
+            var(--tag-corner, 48px) 0,
+            calc(100% - var(--tag-corner, 48px)) 0,
+            100% var(--tag-corner, 48px),
+            100% 100%,
+            0 100%,
+            0 var(--tag-corner, 48px)
+        );
+        mask: radial-gradient(circle at 50% var(--tag-hole-y, 30px), #0000 8px, #000 8.5px);
 
         &::before {
             content: '';
             position: absolute;
-            top: calc(var(--tag-hole-y) - 17px);
-            left: calc(50% - 17px);
-            width: 34px;
-            height: 34px;
+            top: calc(var(--tag-hole-y, 30px) - var(--tag-ring, 34px) / 2);
+            left: calc(50% - var(--tag-ring, 34px) / 2);
+            width: var(--tag-ring, 34px);
+            height: var(--tag-ring, 34px);
             border-radius: 50%;
             background: var(--color-coyote-300);
             box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--color-coyote-700) 45%, transparent);
@@ -193,7 +200,7 @@
             left: calc(50% - 1px);
             z-index: 2;
             width: 2px;
-            height: calc(var(--string) + 30px);
+            height: calc(var(--string) + var(--tag-hole-y, 30px));
             background: linear-gradient(to bottom, var(--color-coyote-700), var(--color-coyote-400));
             border-radius: 2px;
         }

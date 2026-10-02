@@ -64,14 +64,15 @@
                     </div>
                 </div>
             @else
-                <ul role="list" class="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10">
+                {{-- Two tags per row on phones; the tag itself drops its extras at that width (see product-tag). --}}
+                <ul role="list" class="mt-10 grid grid-cols-2 gap-x-3 gap-y-7 sm:mt-12 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-10">
                     @foreach ($products as $product)
-                        <li data-swing class="hanger [--string:3rem]">
-                            <x-product-tag :product="$product" class="w-full" />
+                        <li data-swing class="hanger [--string:3rem] max-sm:[--string:1.75rem] max-sm:[--tag-corner:26px] max-sm:[--tag-hole-y:20px] max-sm:[--tag-ring:24px]">
+                            <x-product-tag :product="$product" class="h-full w-full max-sm:gap-2 max-sm:px-3 max-sm:pt-10 max-sm:pb-3" />
                         </li>
                     @endforeach
 
-                    <li data-swing class="hanger [--string:3rem]">
+                    <li data-swing class="hanger col-span-2 [--string:3rem] max-sm:[--string:1.75rem] sm:col-span-1">
                         <x-instagram-tag />
                     </li>
                 </ul>
