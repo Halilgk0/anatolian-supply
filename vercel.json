@@ -14,9 +14,12 @@
     {
       "src": "/build/(.*)",
       "headers": { "Cache-Control": "public, max-age=31536000, immutable" },
-      "continue": true
+      "dest": "/build/$1"
     },
-    { "handle": "filesystem" },
+    {
+      "src": "/(images/.+|favicon\\.svg|favicon\\.ico|content\\.png|robots\\.txt)",
+      "dest": "/$1"
+    },
     { "src": "/(.*)", "dest": "/api/index.php" }
   ]
 }
