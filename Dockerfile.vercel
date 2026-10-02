@@ -1,0 +1,119 @@
+# syntax=docker/dockerfile:1
+
+# ---------------------------------------------------------------------------
+# Front-end assets
+#
+# public/build is not in the repository, so Vite runs here. The font plugin
+# downloads the Google Fonts files during this step, so it needs network access.
+# ---------------------------------------------------------------------------
+FROM node:22-bookworm-slim AS assets
+
+WORKDIR /app
+
+COPY package.json package-lock.json .npmrc ./
+RUN npm ci --ignore-scripts
+
+COPY vite.config.js ./
+COPY resources ./resources
+
+# app.css points Tailwind at two paths outside resources/. Neither exists in
+# this stage, so create them empty and let the globs resolve to nothing.
+RUN mkdir -p \
+        vendor/laravel/framework/src/Illuminate/Pagination/resources/views \
+        storage/framework/views
+
+RUN npm run build
+
+# ---------------------------------------------------------------------------
+# Base PHP image (Alpine keeps the image small, which shortens cold starts)
+# ---------------------------------------------------------------------------
+FROM dunglas/frankenphp:1-php8.4-alpine AS base
+
+RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && install-php-extensions gd pdo_pgsql pdo_sqlite opcache
+
+COPY docker/php.ini "$PHP_INI_DIR/conf.d/zz-anatolian.ini"
+
+WORKDIR /app
+
+# ---------------------------------------------------------------------------
+# PHP dependencies and build-time caches
+# ---------------------------------------------------------------------------
+FROM base AS dependencies
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+COPY composer.json composer.lock ./
+RUN composer install \
+        --no-dev \
+        --no-interaction \
+        --no-progress \
+        --no-scripts \
+        --optimize-autoloader \
+        --prefer-dist
+
+COPY . .
+COPY --from=assets /app/public/build ./public/build
+
+# Config is deliberately not cached: APP_KEY and the database credentials must
+# be read when the container starts, not when the image is built.
+RUN mkdir -p \
+        storage/framework/cache/data \
+        storage/framework/sessions \
+        storage/framework/views \
+        storage/logs \
+        bootstrap/cache \
+    && composer dump-autoload --no-dev --classmap-authoritative \
+    && php artisan package:discover --ansi \
+    && php artisan view:cache \
+    && php artisan route:cache
+
+# A migrated and seeded SQLite database (demo products and their photos) is
+# baked into the image, so the site has something to show before a Postgres
+# database is connected. The throwaway key is only used by this command.
+RUN touch database/seeded.sqlite \
+    && APP_KEY=base64:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA= \
+       DB_CONNECTION=sqlite \
+       DB_DATABASE=/app/database/seeded.sqlite \
+       STORE_MEDIA_DISK=database \
+       php artisan migrate --force --seed
+
+# ---------------------------------------------------------------------------
+# Runtime
+# ---------------------------------------------------------------------------
+FROM base AS runtime
+
+COPY --from=dependencies --chown=www-data:www-data /app /app
+COPY --chown=www-data:www-data Caddyfile /etc/frankenphp/Caddyfile
+COPY docker/vercel-entrypoint.sh /usr/local/bin/vercel-entrypoint.sh
+
+# setcap lets the server bind port 80 without running as root.
+RUN apk add --no-cache libcap \
+    && setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp \
+    && chown -R www-data:www-data /config/caddy /data/caddy \
+    && chmod +x /usr/local/bin/vercel-entrypoint.sh
+
+# The container filesystem is not durable: sessions ride in an encrypted cookie,
+# and products and photos live in the database (STORE_MEDIA_DISK=database).
+# Anything set in the Vercel project's environment variables overrides these.
+ENV PORT=80 \
+    APP_NAME="Anatolian Supply Co." \
+    APP_ENV=production \
+    APP_DEBUG=false \
+    APP_LOCALE=tr \
+    APP_FALLBACK_LOCALE=tr \
+    LOG_CHANNEL=stderr \
+    LOG_LEVEL=info \
+    CACHE_STORE=array \
+    SESSION_DRIVER=cookie \
+    QUEUE_CONNECTION=sync \
+    DB_CONNECTION=sqlite \
+    DB_DATABASE=/tmp/database.sqlite \
+    STORE_MEDIA_DISK=database \
+    MAIL_FROM_ADDRESS=anatoliansupplyco@gmail.com \
+    MAIL_FROM_NAME="Anatolian Supply Co."
+
+USER www-data
+
+ENTRYPOINT ["/usr/local/bin/vercel-entrypoint.sh"]
+CMD ["frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile"]
