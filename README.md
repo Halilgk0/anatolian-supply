@@ -133,18 +133,46 @@ Bu ayar yapılmadan önce e-postalar gönderilmez, `storage/logs/laravel.log` do
 | Ayar | Ne işe yarar |
 | --- | --- |
 | `STORE_ADMIN_KEY` | Panel bağlantısındaki gizli kod. Boşsa panel kapalıdır. |
-| `STORE_MEDIA_DISK` | Ürün fotoğraflarının saklandığı yer. Bilgisayarda `public`. |
+| `STORE_MEDIA_DISK` | Ürün fotoğraflarının saklandığı yer. Bilgisayarda `public` (klasör), canlı sitede `database` (veritabanı). |
 | `STORE_INQUIRY_EMAIL` | Bilgi taleplerinin gideceği adres. Varsayılan `anatoliansupplyco@gmail.com`. |
 | `STORE_INSTAGRAM_URL` | Sitedeki tüm Instagram düğmelerinin gittiği adres. |
 
-## Vercel’e taşımadan önce
+## Canlı site (Vercel)
 
-Site şu an bilgisayardaki bir SQLite dosyasını ve `storage` klasörünü kullanıyor. Vercel’de sunucunun dosyaları kalıcı olmadığı için yayına almadan önce şunlar ayarlanmalı:
+Site Vercel’de `anatolian-supply` projesi olarak çalışıyor: **https://anatolian-supply.vercel.app**
 
-- **Veritabanı:** Barındırılan bir veritabanı (örneğin Vercel Marketplace’teki Neon Postgres). Bağlantı bilgileri `DB_*` ayarlarıyla verilir; kodda değişiklik gerekmez.
-- **Fotoğraflar:** S3 uyumlu bir depolama alanı (Cloudflare R2, AWS S3 gibi). `STORE_MEDIA_DISK=s3` yapılıp depolama bilgileri girilir; bunun için `league/flysystem-aws-s3-v3` paketi eklenir.
-- **Oturum:** `SESSION_DRIVER=cookie`.
-- **Panel kodu:** Canlı site için bilgisayardakinden farklı yeni bir kod belirlenir ve Vercel’in ortam değişkenlerine `STORE_ADMIN_KEY` olarak girilir.
-- **PHP çalıştırma:** Laravel Vercel’de topluluk tarafından geliştirilen PHP çalışma ortamıyla çalışır; `vercel.json` ve küçük bir giriş dosyası eklenir.
+- GitHub’daki `main` dalına her gönderdiğim değişiklik otomatik olarak yayına alınır.
+- Site bir container içinde çalışır (`Dockerfile.vercel`, `Caddyfile`, `docker/` klasörü). Tasarım dosyaları yayına alınırken derlenir.
+- Vercel’de sunucunun kendi diski kalıcı değildir. Bu yüzden canlı sitede ürünler **ve ürün fotoğrafları** veritabanında saklanır.
+- Container her açıldığında eksik tabloları kendisi oluşturur. Veritabanı boşsa dört örnek ürünü ekler, ürün varsa hiçbirine dokunmaz.
 
-Fotoğraflar tarayıcıda zaten küçültüldüğü için Vercel’in istek boyutu sınırına takılmaz.
+### Veritabanını bağlamak (bir kerelik)
+
+Veritabanı bağlanana kadar site, içine gömülü örnek ürünlerle çalışır; o sırada panelden yaptığım değişiklikler kalıcı olmaz.
+
+1. Vercel’de **anatolian-supply** projesini açıyorum, **Storage** sekmesine geçiyorum.
+2. **Create Database** → **Neon (Serverless Postgres)** seçiyorum, ücretsiz planı ve bölge olarak **Washington, D.C. (iad1)** seçip oluşturuyorum.
+3. Projeye bağlarken **Production** ve **Preview** kutularını işaretliyorum. Vercel `DATABASE_URL` değişkenini kendisi ekler; site bunu otomatik tanır.
+4. **Deployments** sekmesinde en üstteki yayının yanındaki **⋯** menüsünden **Redeploy** diyorum.
+
+### Canlı panel bağlantısı
+
+Canlı sitenin panel kodu bilgisayardakinden farklıdır ve bu dosyada yazmaz. Vercel’de **Settings → Environment Variables** altındaki `STORE_ADMIN_KEY` değeridir. Bağlantı: `https://anatolian-supply.vercel.app/yonetim/` + o kod.
+
+Kodu değiştirmek için `STORE_ADMIN_KEY` değerini düzenleyip **Redeploy** yapıyorum.
+
+### Canlı sitede e-posta formu
+
+Gmail ayarları Vercel’e girilene kadar ürün sayfasındaki form gizlenir. Onun yerine ziyaretçiye hazır mesajı kendi e-posta uygulamasında açan bir düğme gösterilir; böylece kimse “gönderildi” deyip kaybolan bir mesaj yazmaz. Formu açmak için Vercel’de **Settings → Environment Variables** altına şunları ekleyip **Redeploy** yapıyorum:
+
+| Ayar | Değer |
+| --- | --- |
+| `MAIL_MAILER` | `smtp` |
+| `MAIL_HOST` | `smtp.gmail.com` |
+| `MAIL_PORT` | `587` |
+| `MAIL_USERNAME` | `anatoliansupplyco@gmail.com` |
+| `MAIL_PASSWORD` | Google’dan alınan 16 haneli uygulama şifresi |
+
+### Fotoğraf yükleme sınırı
+
+Vercel bir istekte en fazla 4,5 MB kabul eder. Panel fotoğrafları yüklemeden önce zaten küçültür; tek kayıtta toplam 4 MB’ı aşan yeni fotoğraf varsa uyarır. O zaman birkaç fotoğrafı kaydedip kalanları “Düzenle” ile sonra ekliyorum.
