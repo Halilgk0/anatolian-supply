@@ -57,6 +57,8 @@
                     <span class="max-w-md text-sm text-ink/70">JPEG, PNG veya WEBP. En fazla 8 fotoğraf. Birden fazla fotoğrafı aynı anda seçebilirsin.</span>
                     <input type="file" name="images[]" multiple accept="image/jpeg,image/png,image/webp" data-image-input class="sr-only">
                 </label>
+                {{-- Filled by admin.js: whether each new photo has a see-through background, in upload order. --}}
+                <div data-image-cutouts hidden></div>
 
                 <p data-image-status role="status" class="text-sm font-medium text-olive-700 empty:hidden"></p>
                 <x-admin.error for="images" />

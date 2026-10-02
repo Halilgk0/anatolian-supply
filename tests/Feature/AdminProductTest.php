@@ -1,5 +1,6 @@
 <?php
 
+use App\Catalog\ProductImages;
 use App\Models\Product;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -246,4 +247,25 @@ test('admin deletes a product together with its photos', function () {
 
     $this->assertModelMissing($product);
     Storage::disk('public')->assertMissing(['products/ana.jpg', 'products/renk.jpg']);
+});
+
+test('without the GD extension the browser decides whether a photo is a cut-out', function () {
+    app()->instance(ProductImages::class, new class extends ProductImages
+    {
+        public function canInspect(): bool
+        {
+            return false;
+        }
+    });
+
+    $this->post(adminRoute('admin.products.store'), productInput([
+        'images' => [UploadedFile::fake()->image('orman.jpg', 80, 60), UploadedFile::fake()->image('col.png', 80, 60)],
+        'image_cutouts' => ['0', '1'],
+        'colors' => [['name' => 'Çöl deseni', 'hex' => '#c9b48e', 'image' => UploadedFile::fake()->image('renk.png', 40, 40), 'image_cutout' => '1']],
+    ]))->assertSessionHasNoErrors();
+
+    $product = Product::query()->sole();
+
+    expect(array_column($product->images, 'cutout'))->toBe([false, true])
+        ->and($product->colors[0]['cutout'])->toBeTrue();
 });

@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "style": {
+    "file": "assets/fonts-B7fBdjkm.css",
+    "familyStyles": {
+      "stencil": "@font-face {\n  font-family: \"Big Shoulders Stencil Display\";\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"/build/assets/big-shoulders-stencil-display-variable-normal-Bwa4hfvR.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Big Shoulders Stencil Display\";\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"/build/assets/big-shoulders-stencil-display-variable-normal-qmspCb8z.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n\n@font-face {\n  font-family: \"Big Shoulders Stencil Display\";\n  font-style: normal;\n  font-weight: 900;\n  font-display: swap;\n  src: url(\"/build/assets/big-shoulders-stencil-display-variable-normal-Bwa4hfvR.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Big Shoulders Stencil Display\";\n  font-style: normal;\n  font-weight: 900;\n  font-display: swap;\n  src: url(\"/build/assets/big-shoulders-stencil-display-variable-normal-qmspCb8z.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n\n.font-stencil {\n  font-family: var(--font-stencil);\n}",
+      "archivo": "@font-face {\n  font-family: \"Archivo\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"/build/assets/archivo-variable-normal-C4zznr8T.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Archivo\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"/build/assets/archivo-variable-normal-E0tuGl4L.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n\n@font-face {\n  font-family: \"Archivo\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"/build/assets/archivo-variable-normal-C4zznr8T.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Archivo\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"/build/assets/archivo-variable-normal-E0tuGl4L.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n\n@font-face {\n  font-family: \"Archivo\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"/build/assets/archivo-variable-normal-C4zznr8T.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Archivo\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"/build/assets/archivo-variable-normal-E0tuGl4L.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n\n@font-face {\n  font-family: \"Archivo\";\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"/build/assets/archivo-variable-normal-C4zznr8T.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Archivo\";\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"/build/assets/archivo-variable-normal-E0tuGl4L.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n\n.font-archivo {\n  font-family: var(--font-archivo);\n}"
+    },
+    "variables": {
+      "stencil": "--font-stencil: \"Big Shoulders Stencil Display\", Impact, Arial Narrow, sans-serif;",
+      "archivo": "--font-archivo: \"Archivo\", ui-sans-serif, system-ui, sans-serif;"
+    }
+  },
+  "preloads": [
+    {
+      "alias": "stencil",
+      "family": "Big Shoulders Stencil Display",
+      "weight": 700,
+      "style": "normal",
+      "file": "assets/big-shoulders-stencil-display-variable-normal-Bwa4hfvR.woff2",
+      "as": "font",
+      "type": "font/woff2",
+      "crossorigin": "anonymous"
+    },
+    {
+      "alias": "stencil",
+      "family": "Big Shoulders Stencil Display",
+      "weight": 700,
+      "style": "normal",
+      "file": "assets/big-shoulders-stencil-display-variable-normal-qmspCb8z.woff2",
+      "as": "font",
+      "type": "font/woff2",
+      "crossorigin": "anonymous"
+    },
+    {
+      "alias": "archivo",
+      "family": "Archivo",
+      "weight": 400,
+      "style": "normal",
+      "file": "assets/archivo-variable-normal-C4zznr8T.woff2",
+      "as": "font",
+      "type": "font/woff2",
+      "crossorigin": "anonymous"
+    },
+    {
+      "alias": "archivo",
+      "family": "Archivo",
+      "weight": 400,
+      "style": "normal",
+      "file": "assets/archivo-variable-normal-E0tuGl4L.woff2",
+      "as": "font",
+      "type": "font/woff2",
+      "crossorigin": "anonymous"
+    }
+  ],
+  "families": {
+    "stencil": {
+      "family": "Big Shoulders Stencil Display",
+      "variable": "--font-stencil",
+      "fallbacks": [
+        "Impact",
+        "Arial Narrow",
+        "sans-serif"
+      ],
+      "variants": {
+        "700:normal": {
+          "files": [
+            {
+              "file": "assets/big-shoulders-stencil-display-variable-normal-Bwa4hfvR.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF"
+            },
+            {
+              "file": "assets/big-shoulders-stencil-display-variable-normal-qmspCb8z.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+            }
+          ]
+        },
+        "900:normal": {
+          "files": [
+            {
+              "file": "assets/big-shoulders-stencil-display-variable-normal-Bwa4hfvR.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF"
+            },
+            {
+              "file": "assets/big-shoulders-stencil-display-variable-normal-qmspCb8z.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+            }
+          ]
+        }
+      }
+    },
+    "archivo": {
+      "family": "Archivo",
+      "variable": "--font-archivo",
+      "fallbacks": [
+        "ui-sans-serif",
+        "system-ui",
+        "sans-serif"
+      ],
+      "variants": {
+        "400:normal": {
+          "files": [
+            {
+              "file": "assets/archivo-variable-normal-C4zznr8T.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF"
+            },
+            {
+              "file": "assets/archivo-variable-normal-E0tuGl4L.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+            }
+          ]
+        },
+        "500:normal": {
+          "files": [
+            {
+              "file": "assets/archivo-variable-normal-C4zznr8T.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF"
+            },
+            {
+              "file": "assets/archivo-variable-normal-E0tuGl4L.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+            }
+          ]
+        },
+        "600:normal": {
+          "files": [
+            {
+              "file": "assets/archivo-variable-normal-C4zznr8T.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF"
+            },
+            {
+              "file": "assets/archivo-variable-normal-E0tuGl4L.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+            }
+          ]
+        },
+        "700:normal": {
+          "files": [
+            {
+              "file": "assets/archivo-variable-normal-C4zznr8T.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF"
+            },
+            {
+              "file": "assets/archivo-variable-normal-E0tuGl4L.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -53,9 +53,13 @@ class SaveProduct
             ->reject(fn (array $image): bool => in_array($image['path'], $removed, true))
             ->keyBy(fn (array $image): string => 'existing:'.$image['path']);
 
+        $cutoutsFromBrowser = array_values($request->validated('image_cutouts', []));
+
         $added = collect($request->file('images', []))
             ->values()
-            ->mapWithKeys(fn (UploadedFile $file, int $index): array => ["new:{$index}" => $this->images->store($file)]);
+            ->mapWithKeys(fn (UploadedFile $file, int $index): array => [
+                "new:{$index}" => $this->images->store($file, (bool) ($cutoutsFromBrowser[$index] ?? false)),
+            ]);
 
         $all = $kept->merge($added);
         $main = $request->validated('main_image');
@@ -88,7 +92,7 @@ class SaveProduct
                 }
 
                 if ($file = $request->file("colors.{$index}.image")) {
-                    ['path' => $image, 'cutout' => $cutout] = $this->images->store($file);
+                    ['path' => $image, 'cutout' => $cutout] = $this->images->store($file, (bool) ($color['image_cutout'] ?? false));
                 }
 
                 return [

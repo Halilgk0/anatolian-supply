@@ -1,0 +1,43 @@
+{
+  "_archivo-variable-normal-C4zznr8T.woff2": {
+    "file": "assets/archivo-variable-normal-C4zznr8T.woff2",
+    "src": "_archivo-variable-normal-C4zznr8T.woff2"
+  },
+  "_archivo-variable-normal-E0tuGl4L.woff2": {
+    "file": "assets/archivo-variable-normal-E0tuGl4L.woff2",
+    "src": "_archivo-variable-normal-E0tuGl4L.woff2"
+  },
+  "_big-shoulders-stencil-display-variable-normal-Bwa4hfvR.woff2": {
+    "file": "assets/big-shoulders-stencil-display-variable-normal-Bwa4hfvR.woff2",
+    "src": "_big-shoulders-stencil-display-variable-normal-Bwa4hfvR.woff2"
+  },
+  "_big-shoulders-stencil-display-variable-normal-qmspCb8z.woff2": {
+    "file": "assets/big-shoulders-stencil-display-variable-normal-qmspCb8z.woff2",
+    "src": "_big-shoulders-stencil-display-variable-normal-qmspCb8z.woff2"
+  },
+  "_fonts-B7fBdjkm.css": {
+    "file": "assets/fonts-B7fBdjkm.css",
+    "src": "_fonts-B7fBdjkm.css"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-ChSMnVks.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/admin.js": {
+    "file": "assets/admin-CzOIL9X0.js",
+    "name": "admin",
+    "src": "resources/js/admin.js",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-BG-Iqtys.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}

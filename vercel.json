@@ -1,13 +1,22 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "services": {
-    "app": {
-      "root": ".",
-      "entrypoint": "Dockerfile.vercel",
-      "runtime": "container"
+  "framework": null,
+  "installCommand": "echo \"Composer runs inside the PHP runtime\"",
+  "buildCommand": "echo \"Front-end assets are committed in public/build\"",
+  "outputDirectory": "public",
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.8.0",
+      "maxDuration": 30
     }
   },
-  "rewrites": [
-    { "source": "/(.*)", "destination": { "service": "app" } }
+  "routes": [
+    {
+      "src": "/build/(.*)",
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" },
+      "continue": true
+    },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/api/index.php" }
   ]
 }

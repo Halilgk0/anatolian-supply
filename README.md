@@ -142,18 +142,28 @@ Bu ayar yapılmadan önce e-postalar gönderilmez, `storage/logs/laravel.log` do
 Site Vercel’de `anatolian-supply` projesi olarak çalışıyor: **https://anatolian-supply.vercel.app**
 
 - GitHub’daki `main` dalına her gönderdiğim değişiklik otomatik olarak yayına alınır.
-- Site bir container içinde çalışır (`Dockerfile.vercel`, `Caddyfile`, `docker/` klasörü). Tasarım dosyaları yayına alınırken derlenir.
-- Vercel’de sunucunun kendi diski kalıcı değildir. Bu yüzden canlı sitede ürünler **ve ürün fotoğrafları** veritabanında saklanır.
-- Container her açıldığında eksik tabloları kendisi oluşturur. Veritabanı boşsa dört örnek ürünü ekler, ürün varsa hiçbirine dokunmaz.
+- Site Vercel’in PHP çalışma ortamında (`vercel-php`, PHP 8.4) sunucusuz olarak çalışır: `vercel.json` ve `api/index.php`.
+- Vercel’de sunucunun kendi diski kalıcı değildir. Bu yüzden canlı sitede ürünler **ve ürün fotoğrafları** Neon Postgres veritabanında saklanır. Veritabanı projeye bağlı; Vercel bağlantı bilgisini `DATABASE_URL` olarak verir, site bunu kendisi kullanır.
+- Diğer ayarlar (dil, oturum, önbellek, geçici klasörler) Vercel’de **Settings → Environment Variables** altında tanımlı.
 
-### Veritabanını bağlamak (bir kerelik)
+### Tasarımı değiştirdikten sonra
 
-Veritabanı bağlanana kadar site, içine gömülü örnek ürünlerle çalışır; o sırada panelden yaptığım değişiklikler kalıcı olmaz.
+Derlenmiş tasarım dosyaları (`public/build`) depoda tutulur, Vercel’de yeniden derlenmez. CSS veya JavaScript’i değiştirdikten sonra göndermeden önce şunu çalıştırıyorum:
 
-1. Vercel’de **anatolian-supply** projesini açıyorum, **Storage** sekmesine geçiyorum.
-2. **Create Database** → **Neon (Serverless Postgres)** seçiyorum, ücretsiz planı ve bölge olarak **Washington, D.C. (iad1)** seçip oluşturuyorum.
-3. Projeye bağlarken **Production** ve **Preview** kutularını işaretliyorum. Vercel `DATABASE_URL` değişkenini kendisi ekler; site bunu otomatik tanır.
-4. **Deployments** sekmesinde en üstteki yayının yanındaki **⋯** menüsünden **Redeploy** diyorum.
+```bash
+npm run build
+```
+
+### Veritabanı tablolarını güncellemek
+
+İleride yeni bir tablo ya da sütun eklenirse canlı veritabanını bilgisayarımdan güncelliyorum:
+
+1. Vercel’de **Storage → Neon → .env.local** sekmesinden `DATABASE_URL` değerini kopyalıyorum.
+2. Proje klasöründe terminale şunu yazıyorum (tırnak içine kopyaladığım adresi koyuyorum):
+   ```bash
+   DB_CONNECTION=pgsql DB_URL="kopyaladığım-adres" php -d extension=pdo_pgsql artisan magaza:hazirla
+   ```
+3. Komut eksik tabloları oluşturur. Veritabanı boşsa örnek ürünleri ekler; ürün varsa hiçbirine dokunmaz.
 
 ### Canlı panel bağlantısı
 

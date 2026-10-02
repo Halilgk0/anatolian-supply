@@ -11,14 +11,22 @@ use Illuminate\Support\Facades\Storage;
 class ProductImages
 {
     /**
+     * Store an uploaded photo. Where PHP has no GD extension (Vercel's PHP runtime),
+     * the cut-out check the admin page already ran in the browser is used instead.
+     *
      * @return array{path: string, cutout: bool}
      */
-    public function store(UploadedFile $file): array
+    public function store(UploadedFile $file, bool $cutoutFromBrowser = false): array
     {
         return [
             'path' => $file->store('products', config('store.media_disk')),
-            'cutout' => $this->hasTransparentEdges($file->getRealPath()),
+            'cutout' => $this->canInspect() ? $this->hasTransparentEdges($file->getRealPath()) : $cutoutFromBrowser,
         ];
+    }
+
+    public function canInspect(): bool
+    {
+        return function_exists('imagecreatefromstring');
     }
 
     /**
@@ -36,7 +44,7 @@ class ProductImages
      */
     public function hasTransparentEdges(string $path): bool
     {
-        if (! function_exists('imagecreatefromstring')) {
+        if (! $this->canInspect()) {
             return false;
         }
 

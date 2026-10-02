@@ -177,12 +177,23 @@ function initImages(productForm, busy) {
         updatePreview();
     };
 
+    const cutouts = manager.querySelector('[data-image-cutouts]');
+
     const syncInput = () => {
         const transfer = new DataTransfer();
+
+        cutouts.replaceChildren();
 
         added.forEach((item, index) => {
             transfer.items.add(item.file);
             item.card.querySelector('input[name="main_image"]').value = `new:${index}`;
+
+            const flag = document.createElement('input');
+
+            flag.type = 'hidden';
+            flag.name = 'image_cutouts[]';
+            flag.value = item.cutout ? '1' : '0';
+            cutouts.append(flag);
         });
 
         input.files = transfer.files;
@@ -330,6 +341,18 @@ function initColors(productForm, busy) {
 
         transfer.items.add(prepared.file);
         field.files = transfer.files;
+
+        const flagName = field.name.replace('[image]', '[image_cutout]');
+        let flag = row.querySelector(`input[name="${CSS.escape(flagName)}"]`);
+
+        if (!flag) {
+            flag = document.createElement('input');
+            flag.type = 'hidden';
+            flag.name = flagName;
+            row.append(flag);
+        }
+
+        flag.value = prepared.cutout ? '1' : '0';
 
         const preview = row.querySelector('[data-color-preview]');
 
